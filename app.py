@@ -1,4 +1,5 @@
 #!flask/bin/python
+import os  # <-- هذا هو السطر المطلوب إضافته
 from flask import Flask, request, render_template
 from flask_bootstrap import Bootstrap
 import pickle
@@ -37,5 +38,6 @@ def predict():
         test_features = loaded_transformer.transform([" ".join(clean_data)])
         my_prediction = get_predictions(loaded_model,test_features)
     return render_template('results.html', prediction=my_prediction, name = namequery)
+
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)), debug=False)  # احذف `debug=True` في البيئة الإنتاجية
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)), debug=False)
