@@ -37,6 +37,5 @@ def predict():
         test_features = loaded_transformer.transform([" ".join(clean_data)])
         my_prediction = get_predictions(loaded_model,test_features)
     return render_template('results.html', prediction=my_prediction, name = namequery)
-
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)), debug=False)  # احذف `debug=True` في البيئة الإنتاجية
