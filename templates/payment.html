@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subscription Registration with Gold Card</title>
+
+    <!-- ربط مع ملف CSS -->
+    <link href="{{ url_for('static', filename='css/payment_style.css') }}" rel="stylesheet" />
+</head>
+
+<body class="dark-mode">
+
+    <div class="form-container">
+        <h2>Subscription Registration</h2>
+
+        <form action="{{ url_for('process_subscription') }}" method="POST">
+
+
+            <div class="form-group">
+                <label for="full-name">Full Name</label>
+                <input type="text" id="full-name" name="full_name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="card-number">Gold Card Number</label>
+                <input type="text" id="card-number" name="card_number" maxlength="19" placeholder="e.g., 1234 5678 9012 3456" required>
+            </div>
+
+            <div class="form-group">
+                <label for="expiry-date">Expiration Date</label>
+                <input type="month" id="expiry-date" name="expiry_date" required>
+            </div>
+
+            <div class="form-group">
+                <label for="cvv">Security Code (CVV)</label>
+                <input type="password" id="cvv" name="cvv" maxlength="3" required>
+            </div>
+
+            <div class="form-group">
+                <label for="phone-number">Phone Number Linked to Card</label>
+                <input type="tel" id="phone-number" name="phone_number" placeholder="e.g., 07xx xxx xxx" pattern="^0[5-7][0-9]{8}$" required>
+            </div>
+
+            <div class="form-group">
+                <label for="subscription-price">Subscription Price (DZD)</label>
+                <input type="number" id="subscription-price" name="subscription_price" min="1" placeholder="e.g., 1000" required>
+            </div>
+
+            <div class="form-group">
+                <label for="subscription-duration">Subscription Duration</label>
+                <select id="subscription-duration" name="subscription_duration" required>
+                    <option value="">-- Select Subscription Duration --</option>
+                    <option value="1 Month">1 Month</option>
+                    <option value="3 Months">3 Months</option>
+                    <option value="6 Months">6 Months</option>
+                    <option value="12 Months (1 Year)">12 Months (1 Year)</option>
+                </select>
+            </div>
+
+            <button type="submit" class="submit-button">Register</button>
+
+        </form>
+    </div>
+
+</body>
+</html>

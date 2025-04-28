@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - Dark UI - Bank dashboard concept</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+  <link rel="stylesheet" href="style.css">
+  <link href="static/css/style2.css" rel="stylesheet" />
+  <style>
+    /* Additional styles for the table */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background-color: #2a2d35;
+      color: #e1e1e1;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    
+    .data-table th, .data-table td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #3a3f4b;
+    }
+    
+    .data-table th {
+      background-color: #363a45;
+      font-weight: 600;
+    }
+    
+    .data-table tr:hover {
+      background-color: #3a3f4b;
+    }
+    
+    .data-table tr:last-child td {
+      border-bottom: none;
+    }
+    
+    .status {
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    
+    .status.completed {
+      background-color: rgba(63, 195, 128, 0.1);
+      color: #3fc380;
+    }
+    
+    .status.pending {
+      background-color: rgba(255, 178, 55, 0.1);
+      color: #ffb237;
+    }
+    
+    .status.failed {
+      background-color: rgba(250, 92, 124, 0.1);
+      color: #fa5c7c;
+    }
+  </style>
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<div class="app">
+	<header class="app-header">
+		<div class="app-header-logo">
+			<div class="logo">
+				<span class="logo-icon">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-shield-check" viewBox="0 0 16 16">
+						<path d="M5.338 1.59a61 61 0 0 0-2.837.856.48.48 0 0 0-.328.39c-.554 4.157.726 7.19 2.253 9.188a10.7 10.7 0 0 0 2.287 2.233c.346.244.652.42.893.533q.18.085.293.118a1 1 0 0 0 .101.025 1 1 0 0 0 .1-.025q.114-.034.294-.118c.24-.113.547-.29.893-.533a10.7 10.7 0 0 0 2.287-2.233c1.527-1.997 2.807-5.031 2.253-9.188a.48.48 0 0 0-.328-.39c-.651-.213-1.75-.56-2.837-.855C9.552 1.29 8.531 1.067 8 1.067c-.53 0-1.552.223-2.662.524zM5.072.56C6.157.265 7.31 0 8 0s1.843.265 2.928.56c1.11.3 2.229.655 2.887.87a1.54 1.54 0 0 1 1.044 1.262c.596 4.477-.787 7.795-2.465 9.99a11.8 11.8 0 0 1-2.517 2.453 7 7 0 0 1-1.048.625c-.28.132-.581.24-.829.24s-.548-.108-.829-.24a7 7 0 0 1-1.048-.625 11.8 11.8 0 0 1-2.517-2.453C1.928 10.487.545 7.169 1.141 2.692A1.54 1.54 0 0 1 2.185 1.43 63 63 0 0 1 5.072.56"/>
+						<path d="M10.854 5.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 7.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
+					  </svg>
+				</span>
+				<h1 class="logo-title">
+					<span>Fact</span>
+					<span>Check AI
+					</span>
+				</h1>
+			</div>
+		</div>
+		<div class="app-header-navigation">
+			
+		</div>
+		<div class="app-header-actions">
+			<button class="user-profile">
+				<span>Admin</span>
+				<span>
+					<img src="https://assets.codepen.io/285131/almeria-avatar.jpeg" />
+				</span>
+			</button>
+			<div class="app-header-actions-buttons">
+				<button class="icon-button large">
+					<i class="ph-magnifying-glass"></i>
+				</button>
+				<button class="icon-button large">
+					<i class="ph-bell"></i>
+				</button>
+			</div>
+		</div>
+		<div class="app-header-mobile">
+			<button class="icon-button large">
+				<i class="ph-list"></i>
+			</button>
+		</div>
+
+	</header>
+	<div class="app-body">
+		<div class="app-body-navigation">
+			<nav class="navigation">
+				<a href="/admin">
+					<i class="ph-browsers"></i>
+					<span>Dashboard</span>
+				</a>
+				<a href="/table_detection">
+					<i class="ph-check-square"></i>
+					<span>
+						table detection</span>
+				</a>
+				<a href="/table_user">
+					<i class="ph-check-square"></i>
+					<span>
+						table user </span>
+				</a>
+				
+				
+				<a href="/table_crowdsource">
+					<i class="ph-file-text"></i>
+					<span> table crowdsourced </span>
+				</a>
+				<a href="/login">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-left" viewBox="0 0 16 16">
+						<path fill-rule="evenodd" d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0z"/>
+						<path fill-rule="evenodd" d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708z"/>
+					  </svg>
+					&nbsp; &nbsp; &nbsp;
+					
+					<span>   log out</span>
+				</a>
+			</nav>
+		
+		</div>
+		<div class="app-body-main-content">
+			<section class="service-section">
+				<h2>Recent Fact Checks</h2>
+				<table class="data-table">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>Content</th>
+							<th>Type</th>
+							<th>Date</th>
+							<th>Status</th>
+							<th>Result</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>#FC-1001</td>
+							<td>"The Earth is flat" claim</td>
+							<td>Text</td>
+							<td>2023-05-15</td>
+							<td><span class="status completed">Completed</span></td>
+							<td>False</td>
+						</tr>
+						<tr>
+							<td>#FC-1002</td>
+							<td>Viral moon landing photo</td>
+							<td>Image</td>
+							<td>2023-05-14</td>
+							<td><span class="status completed">Completed</span></td>
+							<td>Authentic</td>
+						</tr>
+						<tr>
+							<td>#FC-1003</td>
+							<td>"Vaccines cause autism" statement</td>
+							<td>Text</td>
+							<td>2023-05-13</td>
+							<td><span class="status completed">Completed</span></td>
+							<td>False</td>
+						</tr>
+						<tr>
+							<td>#FC-1004</td>
+							<td>Political speech clip</td>
+							<td>Video</td>
+							<td>2023-05-12</td>
+							<td><span class="status pending">Pending</span></td>
+							<td>-</td>
+						</tr>
+						<tr>
+							<td>#FC-1005</td>
+							<td>Celebrity deepfake video</td>
+							<td>Video</td>
+							<td>2023-05-11</td>
+							<td><span class="status completed">Completed</span></td>
+							<td>AI-Generated</td>
+						</tr>
+						<tr>
+							<td>#FC-1006</td>
+							<td>"5G causes COVID-19" claim</td>
+							<td>Text</td>
+							<td>2023-05-10</td>
+							<td><span class="status completed">Completed</span></td>
+							<td>False</td>
+						</tr>
+						<tr>
+							<td>#FC-1007</td>
+							<td>Historical event photo (altered)</td>
+							<td>Image</td>
+							<td>2023-05-09</td>
+							<td><span class="status completed">Completed</span></td>
+							<td>Manipulated</td>
+						</tr>
+						<tr>
+							<td>#FC-1008</td>
+							<td>Scientific study about climate change</td>
+							<td>Text</td>
+							<td>2023-05-08</td>
+							<td><span class="status completed">Completed</span></td>
+							<td>Verified</td>
+						</tr>
+						<tr>
+							<td>#FC-1009</td>
+							<td>Viral "alien sighting" video</td>
+							<td>Video</td>
+							<td>2023-05-07</td>
+							<td><span class="status completed">Completed</span></td>
+							<td>Fabricated</td>
+						</tr>
+						<tr>
+							<td>#FC-1010</td>
+							<td>Medical breakthrough claim</td>
+							<td>Text</td>
+							<td>2023-05-06</td>
+							<td><span class="status completed">Completed</span></td>
+							<td>Misleading</td>
+						</tr>
+						<tr>
+							<td>#FC-1011</td>
+							<td>Celebrity quote screenshot</td>
+							<td>Image</td>
+							<td>2023-05-05</td>
+							<td><span class="status completed">Completed</span></td>
+							<td>Fake</td>
+						</tr>
+						<tr>
+							<td>#FC-1012</td>
+							<td>Historical speech recording</td>
+							<td>Audio</td>
+							<td>2023-05-04</td>
+							<td><span class="status completed">Completed</span></td>
+							<td>Authentic</td>
+						</tr>
+						<tr>
+							<td>#FC-1013</td>
+							<td>"Government tracking chips" claim</td>
+							<td>Text</td>
+							<td>2023-05-03</td>
+							<td><span class="status completed">Completed</span></td>
+							<td>False</td>
+						</tr>
+						<tr>
+							<td>#FC-1014</td>
+							<td>Viral war zone photo</td>
+							<td>Image</td>
+							<td>2023-05-02</td>
+							<td><span class="status completed">Completed</span></td>
+							<td>Misattributed</td>
+						</tr>
+						<tr>
+							<td>#FC-1015</td>
+							<td>Financial advice video</td>
+							<td>Video</td>
+							<td>2023-05-01</td>
+							<td><span class="status completed">Completed</span></td>
+							<td>Verified</td>
+						</tr>
+						<tr>
+							<td>#FC-1016</td>
+							<td>"Chemtrails" conspiracy claim</td>
+							<td>Text</td>
+							<td>2023-04-30</td>
+							<td><span class="status completed">Completed</span></td>
+							<td>False</td>
+						</tr>
+						<tr>
+							<td>#FC-1017</td>
+							<td>AI-generated artwork claim</td>
+							<td>Image</td>
+							<td>2023-04-29</td>
+							<td><span class="status completed">Completed</span></td>
+							<td>AI-Generated</td>
+						</tr>
+						<tr>
+							<td>#FC-1018</td>
+							<td>Political debate fact-check</td>
+							<td>Text</td>
+							<td>2023-04-28</td>
+							<td><span class="status completed">Completed</span></td>
+							<td>Mostly True</td>
+						</tr>
+						<tr>
+							<td>#FC-1019</td>
+							<td>Viral animal rescue video</td>
+							<td>Video</td>
+							<td>2023-04-27</td>
+							<td><span class="status completed">Completed</span></td>
+							<td>Staged</td>
+						</tr>
+						<tr>
+							<td>#FC-1020</td>
+							<td>Nutritional health claim</td>
+							<td>Text</td>
+							<td>2023-04-26</td>
+							<td><span class="status completed">Completed</span></td>
+							<td>Partially True</td>
+						</tr>
+					</tbody>
+				</table>
+			</section>
+		</div>
+		<div class="app-body-sidebar">
+			
+		
+		</div>
+	</div>
+</div>
+<!-- partial -->
+</body>
+</html>

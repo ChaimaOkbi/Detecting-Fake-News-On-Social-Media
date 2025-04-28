@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>FactCheck AI - Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+  <link rel="stylesheet" href="style.css">
+  <link href="static/css/style2.css" rel="stylesheet" />
+  <!-- Chart.js for data visualization -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+    
+    .stat-card {
+      background: #2a3042;
+      border-radius: 14px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .stat-card h3 {
+      margin: 0 0 10px 0;
+      font-size: 14px;
+      color: #8a91aa;
+    }
+    
+    .stat-card .value {
+      font-size: 28px;
+      font-weight: 700;
+      color: white;
+    }
+    
+    .stat-card .change {
+      margin-top: 10px;
+      font-size: 12px;
+      color: #4caf50;
+    }
+    
+    .stat-card .change.negative {
+      color: #f44336;
+    }
+    
+    .charts-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+    
+    .chart-card {
+      background: #2a3042;
+      border-radius: 14px;
+      padding: 20px;
+    }
+    
+    .chart-card h3 {
+      margin: 0 0 20px 0;
+      font-size: 16px;
+      color: white;
+    }
+    
+    .chart-container {
+      position: relative;
+      height: 250px;
+      width: 100%;
+    }
+    
+    .recent-activity {
+      background: #2a3042;
+      border-radius: 14px;
+      padding: 20px;
+    }
+    
+    .recent-activity h3 {
+      margin: 0 0 20px 0;
+      font-size: 16px;
+      color: white;
+    }
+    
+    .activity-item {
+      display: flex;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid #3a4055;
+    }
+    
+    .activity-item:last-child {
+      border-bottom: none;
+    }
+    
+    .activity-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #3a4055;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 15px;
+    }
+    
+    .activity-details {
+      flex: 1;
+    }
+    
+    .activity-title {
+      font-size: 14px;
+      color: white;
+      margin-bottom: 4px;
+    }
+    
+    .activity-time {
+      font-size: 12px;
+      color: #8a91aa;
+    }
+  </style>
+</head>
+<body>
+<div class="app">
+  <header class="app-header">
+    <div class="app-header-logo">
+      <div class="logo">
+        <span class="logo-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-shield-check" viewBox="0 0 16 16">
+            <path d="M5.338 1.59a61 61 0 0 0-2.837.856.48.48 0 0 0-.328.39c-.554 4.157.726 7.19 2.253 9.188a10.7 10.7 0 0 0 2.287 2.233c.346.244.652.42.893.533q.18.085.293.118a1 1 0 0 0 .101.025 1 1 0 0 0 .1-.025q.114-.034.294-.118c.24-.113.547-.29.893-.533a10.7 10.7 0 0 0 2.287-2.233c1.527-1.997 2.807-5.031 2.253-9.188a.48.48 0 0 0-.328-.39c-.651-.213-1.75-.56-2.837-.855C9.552 1.29 8.531 1.067 8 1.067c-.53 0-1.552.223-2.662.524zM5.072.56C6.157.265 7.31 0 8 0s1.843.265 2.928.56c1.11.3 2.229.655 2.887.87a1.54 1.54 0 0 1 1.044 1.262c.596 4.477-.787 7.795-2.465 9.99a11.8 11.8 0 0 1-2.517 2.453 7 7 0 0 1-1.048.625c-.28.132-.581.24-.829.24s-.548-.108-.829-.24a7 7 0 0 1-1.048-.625 11.8 11.8 0 0 1-2.517-2.453C1.928 10.487.545 7.169 1.141 2.692A1.54 1.54 0 0 1 2.185 1.43 63 63 0 0 1 5.072.56"/>
+            <path d="M10.854 5.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 7.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
+          </svg>
+        </span>
+        <h1 class="logo-title">
+          <span>Fact</span>
+          <span>Check AI</span>
+        </h1>
+      </div>
+    </div>
+    <div class="app-header-navigation"></div>
+    <div class="app-header-actions">
+      <button class="user-profile">
+        <span>Admin</span>
+        <span>
+          <img src="https://assets.codepen.io/285131/almeria-avatar.jpeg" />
+        </span>
+      </button>
+      <div class="app-header-actions-buttons">
+        <button class="icon-button large">
+          <i class="ph-magnifying-glass"></i>
+        </button>
+        <button class="icon-button large">
+          <i class="ph-bell"></i>
+        </button>
+      </div>
+    </div>
+    <div class="app-header-mobile">
+      <button class="icon-button large">
+        <i class="ph-list"></i>
+      </button>
+    </div>
+  </header>
+  
+  <div class="app-body">
+    <div class="app-body-navigation">
+      <nav class="navigation">
+        <a href="/admin">
+          <i class="ph-browsers"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="/table_detection">
+          <i class="ph-check-square"></i>
+          <span>Table Detection</span>
+        </a>
+        <a href="/table_user">
+          <i class="ph-check-square"></i>
+          <span>Table User</span>
+        </a>
+       
+				<a href="/table_crowdsource">
+					<i class="ph-file-text"></i>
+					<span> table crowdsourced </span>
+				</a>
+       
+        <a href="/login">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-left" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0z"/>
+            <path fill-rule="evenodd" d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708z"/>
+          </svg>
+          &nbsp; &nbsp; &nbsp;
+          <span>Log Out</span>
+        </a>
+      </nav>
+    </div>
+    
+    <div class="app-body-main-content">
+      <!-- Statistics Cards -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <h3>Total Users</h3>
+          <div class="value">1,248</div>
+          <div class="change">+12% from last month</div>
+        </div>
+        <div class="stat-card">
+          <h3>Active Subscriptions</h3>
+          <div class="value">842</div>
+          <div class="change">+8% from last month</div>
+        </div>
+        <div class="stat-card">
+          <h3>Text Detections</h3>
+          <div class="value">5,327</div>
+          <div class="change">+23% from last month</div>
+        </div>
+        <div class="stat-card">
+          <h3>Revenue</h3>
+          <div class="value">$24,580</div>
+          <div class="change">+15% from last month</div>
+        </div>
+      </div>
+      
+      <!-- Charts -->
+      <div class="charts-container">
+        <div class="chart-card">
+          <h3>User Growth</h3>
+          <div class="chart-container">
+            <canvas id="usersChart"></canvas>
+          </div>
+        </div>
+        <div class="chart-card">
+          <h3>Monthly Revenue</h3>
+          <div class="chart-container">
+            <canvas id="revenueChart"></canvas>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Additional Charts -->
+      <div class="charts-container">
+        <div class="chart-card">
+          <h3>Text Detection Types</h3>
+          <div class="chart-container">
+            <canvas id="detectionChart"></canvas>
+          </div>
+        </div>
+        <div class="chart-card">
+          <h3>Subscription Plans</h3>
+          <div class="chart-container">
+            <canvas id="plansChart"></canvas>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Recent Activity -->
+      <div class="recent-activity">
+        <h3>Recent Activity</h3>
+        <div class="activity-item">
+          <div class="activity-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+            </svg>
+          </div>
+          <div class="activity-details">
+            <div class="activity-title">New user registered</div>
+            <div class="activity-time">5 minutes ago</div>
+          </div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+              <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+            </svg>
+          </div>
+          <div class="activity-details">
+            <div class="activity-title">Text detection completed</div>
+            <div class="activity-time">12 minutes ago</div>
+          </div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M4 4a3 3 0 0 0-3 3v6h6V7a3 3 0 0 0-3-3m10 0h-3v3h3zm0 4h-3v3h3zm0 4h-3v3h3zM7 7a1 1 0 0 1 1-1h3v3H8a1 1 0 0 1-1-1m0 4a1 1 0 0 1 1-1h3v3H8a1 1 0 0 1-1-1"/>
+            </svg>
+          </div>
+          <div class="activity-details">
+            <div class="activity-title">Table detection processed</div>
+            <div class="activity-time">25 minutes ago</div>
+          </div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v1h14V4a1 1 0 0 0-1-1zm13 4H1v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z"/>
+              <path d="M2 10a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/>
+            </svg>
+          </div>
+          <div class="activity-details">
+            <div class="activity-title">Premium subscription purchased</div>
+            <div class="activity-time">1 hour ago</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // User Growth Chart
+  const usersCtx = document.getElementById('usersChart').getContext('2d');
+  const usersChart = new Chart(usersCtx, {
+    type: 'line',
+    data: {
+      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+      datasets: [{
+        label: 'New Users',
+        data: [320, 450, 580, 720, 890, 1020, 1248],
+        borderColor: '#4caf50',
+        backgroundColor: 'rgba(76, 175, 80, 0.1)',
+        tension: 0.3,
+        fill: true
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          display: false
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          grid: {
+            color: 'rgba(255, 255, 255, 0.1)'
+          },
+          ticks: {
+            color: '#8a91aa'
+          }
+        },
+        x: {
+          grid: {
+            color: 'rgba(255, 255, 255, 0.1)'
+          },
+          ticks: {
+            color: '#8a91aa'
+          }
+        }
+      }
+    }
+  });
+
+  // Revenue Chart
+  const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+  const revenueChart = new Chart(revenueCtx, {
+    type: 'bar',
+    data: {
+      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+      datasets: [{
+        label: 'Revenue ($)',
+        data: [12500, 14300, 16800, 19200, 21500, 23400, 24580],
+        backgroundColor: 'rgba(54, 162, 235, 0.7)',
+        borderColor: 'rgba(54, 162, 235, 1)',
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          display: false
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          grid: {
+            color: 'rgba(255, 255, 255, 0.1)'
+          },
+          ticks: {
+            color: '#8a91aa'
+          }
+        },
+        x: {
+          grid: {
+            color: 'rgba(255, 255, 255, 0.1)'
+          },
+          ticks: {
+            color: '#8a91aa'
+          }
+        }
+      }
+    }
+  });
+
+  // Detection Types Chart
+  const detectionCtx = document.getElementById('detectionChart').getContext('2d');
+  const detectionChart = new Chart(detectionCtx, {
+    type: 'doughnut',
+    data: {
+      labels: ['Text Analysis', 'Table Detection', 'Image Analysis', 'Document Review'],
+      datasets: [{
+        data: [3200, 1500, 420, 207],
+        backgroundColor: [
+          'rgba(75, 192, 192, 0.7)',
+          'rgba(54, 162, 235, 0.7)',
+          'rgba(255, 206, 86, 0.7)',
+          'rgba(153, 102, 255, 0.7)'
+        ],
+        borderColor: [
+          'rgba(75, 192, 192, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(153, 102, 255, 1)'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: 'right',
+          labels: {
+            color: '#8a91aa'
+          }
+        }
+      }
+    }
+  });
+
+  // Subscription Plans Chart
+  const plansCtx = document.getElementById('plansChart').getContext('2d');
+  const plansChart = new Chart(plansCtx, {
+    type: 'pie',
+    data: {
+      labels: ['Free', 'Basic', 'Pro', 'Enterprise'],
+      datasets: [{
+        data: [406, 320, 95, 21],
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.7)',
+          'rgba(54, 162, 235, 0.7)',
+          'rgba(255, 206, 86, 0.7)',
+          'rgba(75, 192, 192, 0.7)'
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: 'right',
+          labels: {
+            color: '#8a91aa'
+          }
+        }
+      }
+    }
+  });
+</script>
+</body>
+</html>
