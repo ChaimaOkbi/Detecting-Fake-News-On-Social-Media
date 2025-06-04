@@ -89,6 +89,11 @@ def login_admin():
 def index():
     return render_template('index.html')
 
+
+@app.route('/sing up')
+def sing_up():
+    return render_template('sing up.html')
+
 # Test page
 @app.route('/try')
 def about():
@@ -248,5 +253,8 @@ def process_report():
 
 
 
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', 
+            port=int(os.environ.get('PORT', 5000)), 
+            debug=False)
